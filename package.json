@@ -1,0 +1,12 @@
+{
+  "name": "pmd",
+  "version": "1.0.0",
+  "description": "PMD is a CLI tool for creating, encrypting, and managing private `.pmd` files. It allows users to securely encrypt Markdown content with a username and password system, making it accessible only to authorized users. The encrypted `.pmd` files can be viewed with an HTML viewer that decrypts the content in-browser after authentication.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
