@@ -13,3 +13,16 @@ function encrypt(data, key) {
     encrypted += cipher.final("base64");
     return encrypted;
 }
+
+// Initialize PMD repository
+function initRepo() {
+    if (!fs.existsSync(PMD_FOLDER)) {
+        fs.mkdirSync(PMD_FOLDER);
+        const key = crypto.randomBytes(32);
+        fs.writeFileSync(path.join(PMD_FOLDER, "key"), key.toString("base64"));
+        console.log("PMD initialized successfully!");
+    } else {
+        console.log("PMD is already initialized in this repository.");
+    }
+
+}
