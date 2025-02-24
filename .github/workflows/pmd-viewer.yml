@@ -1,0 +1,95 @@
+name: PMD Viewer Update
+
+on:
+  push:
+    paths:
+      - '**.pmd'
+  workflow_dispatch:  # Allow manual trigger
+
+jobs:
+  update-viewer:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pages: write
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: |
+          npm install -g @zoraizmohammad/pmd
+          npm ci
+
+      - name: Generate PMD Files Index
+        run: |
+          echo "Generating PMD files index..."
+          
+          # Create index.html
+          cat > index.html << 'EOF'
+          <!DOCTYPE html>
+          <html>
+          <head>
+              <title>PMD Files - Private Markdown Viewer</title>
+              <meta charset="utf-8">
+              <meta name="viewport" content="width=device-width, initial-scale=1">
+              <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+              <style>
+                  .file-list { margin-top: 2rem; }
+                  .file-item { padding: 0.5rem; border-bottom: 1px solid #eee; }
+                  .file-item:hover { background-color: #f8f9fa; }
+              </style>
+          </head>
+          <body>
+              <div class="container mt-5">
+                  <h1>PMD Files</h1>
+                  <p class="lead">Select a PMD file to view its contents</p>
+                  
+                  <div class="alert alert-info">
+                      <h4>What is PMD?</h4>
+                      <p>PMD (Private Markdown) allows you to securely store sensitive markdown files in public repositories.
+                         Each file is encrypted and requires valid credentials to view.</p>
+                  </div>
+
+                  <div class="file-list">
+          EOF
+          
+          # Find all .pmd files and add them to index.html
+          find . -name "*.pmd" -not -path "./node_modules/*" | while read -r file; do
+              # Remove leading ./ from file path
+              clean_file=$(echo "$file" | sed 's|^\./||')
+              # Convert file path to raw GitHub URL
+              file_url="https://raw.githubusercontent.com/$GITHUB_REPOSITORY/$GITHUB_SHA/$clean_file"
+              echo "<div class='file-item'><a href='viewer.html?url=$file_url' class='text-decoration-none'>📄 $clean_file</a></div>" >> index.html
+          done
+          
+          # Complete index.html
+          cat >> index.html << 'EOF'
+                  </div>
+
+                  <div class="mt-5">
+                      <h3>Upload PMD File</h3>
+                      <p>You can also view a local PMD file:</p>
+                      <a href="viewer.html" class="btn btn-primary">Open Viewer</a>
+                  </div>
+              </div>
+          </body>
+          </html>
+          EOF
+
+      - name: Copy viewer.html
+        run: |
+          cp web/viewer.html .
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: .
+          enable_jekyll: false

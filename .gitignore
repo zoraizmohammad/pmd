@@ -1,3 +1,4 @@
 node_modules/
 .pmd/
-viewer.html
+/viewer.html
+!web/viewer.html
