@@ -1,19 +1,22 @@
 {
   "name": "vscode-pmd",
-  "displayName": "PMD - Private Markdown Viewer",
-  "description": "VS Code extension for viewing and managing encrypted .pmd files",
-  "version": "0.1.0",
-  "publisher": "pmd",
+  "displayName": "PMD - Private Markdown",
+  "description": "Secure markdown encryption and viewing for VS Code",
+  "version": "1.0.0",
+  "publisher": "zoraizmohammad",
   "engines": {
     "vscode": "^1.85.0"
   },
   "categories": [
-    "Other"
+    "Other",
+    "Programming Languages",
+    "Formatters"
   ],
   "activationEvents": [
     "onLanguage:markdown",
     "onCommand:vscode-pmd.encrypt",
-    "onCommand:vscode-pmd.decrypt"
+    "onCommand:vscode-pmd.decrypt",
+    "onCommand:vscode-pmd.preview"
   ],
   "main": "./dist/extension.js",
   "contributes": {
@@ -29,15 +32,59 @@
       {
         "command": "vscode-pmd.preview",
         "title": "PMD: Preview PMD File"
+      },
+      {
+        "command": "vscode-pmd.init",
+        "title": "PMD: Initialize in Workspace"
       }
     ],
     "languages": [
       {
         "id": "pmd",
         "extensions": [".pmd"],
-        "aliases": ["Private Markdown"]
+        "aliases": ["Private Markdown"],
+        "configuration": "./language-configuration.json"
       }
-    ]
+    ],
+    "menus": {
+      "editor/title": [
+        {
+          "when": "resourceLangId == markdown",
+          "command": "vscode-pmd.encrypt",
+          "group": "navigation"
+        },
+        {
+          "when": "resourceLangId == pmd",
+          "command": "vscode-pmd.preview",
+          "group": "navigation"
+        }
+      ],
+      "explorer/context": [
+        {
+          "when": "resourceLangId == markdown",
+          "command": "vscode-pmd.encrypt",
+          "group": "PMD"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "PMD",
+      "properties": {
+        "pmd.autoPreview": {
+          "type": "boolean",
+          "default": true,
+          "description": "Automatically preview PMD files when opened"
+        },
+        "pmd.defaultUsers": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": [],
+          "description": "Default usernames to suggest during encryption"
+        }
+      }
+    }
   },
   "scripts": {
     "vscode:prepublish": "npm run package",

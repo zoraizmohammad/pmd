@@ -1,185 +1,132 @@
 # **PMD: Private Markdown Encryption for Public Repositories**
 
-PMD is a CLI tool for creating, encrypting, and managing private `.pmd` files. It allows users to securely encrypt Markdown content with a username and password system, making it accessible only to authorized users. The encrypted `.pmd` files can be viewed with an HTML viewer that decrypts the content in-browser after authentication.
+PMD (Private Markdown) is a secure solution for encrypting and managing sensitive markdown files in public repositories. It provides a CLI tool, VS Code extension, and web viewer for seamless integration into your workflow.
 
----
+## Quick Start
 
-## **Features**
-- **Encrypt Markdown files**: Secure `.md` files into `.pmd` format with AES encryption.
-- **User Authentication**: Embed usernames and passwords directly into the `.pmd` file.
-- **HTML Viewer**: Host `.pmd` files publicly and view them after authentication.
-- **Simple CLI Commands**: Easy-to-use commands to initialize repositories and manage files.
+### 1. Install PMD
 
----
-
-## **Installation**
-
-### **1. Install via NPM**
-To use PMD globally on your machine, install it via `npm`:
 ```bash
-npm install -g pmd-cli
+# Install globally (recommended)
+npm install -g @zoraizmohammad/pmd
+
+# Or install in your project
+npm install @zoraizmohammad/pmd
 ```
 
----
+### 2. Initialize PMD
 
-## **Usage**
-
-### **1. Initialize the Repository**
-Set up your repository for `.pmd` support:
 ```bash
+# Initialize PMD in your project
 pmd init
 ```
 
-This command:
-1. Creates a `.pmd/` folder in the repository.
-2. Generates a unique AES encryption key (`.pmd/key`).
-3. Creates an `viewer.html` file to decrypt and display `.pmd` files.
+This will:
+- Create a `.pmd` directory for encryption keys
+- Add `.pmd` to your `.gitignore`
+- Set up the web viewer
 
----
+### 3. Install the VS Code Extension
 
-### **2. Encrypt a Markdown File**
-Encrypt a Markdown file into `.pmd` format with embedded usernames and passwords:
-```bash
-pmd encrypt <file.md> <usernames> <passwords>
-```
+1. Open VS Code
+2. Go to Extensions (Ctrl+Shift+X)
+3. Search for "PMD - Private Markdown"
+4. Click Install
 
-#### **Example**
-```bash
-pmd encrypt README.md user1,user2,user3 pass1,pass2,pass3
-```
+### 4. Create a PMD File
 
-This generates an encrypted `README.pmd` file with the following structure:
-```plaintext
-<content>[Encrypted markdown content]</content>
-<users>[Encrypted usernames]</users>
-<passwords>[Encrypted passwords]</passwords>
-```
+#### Using VS Code:
+1. Open a markdown file
+2. Click the lock icon in the editor title bar
+3. Enter usernames and passwords when prompted
 
----
-
-### **3. Host the Viewer**
-Upload the `viewer.html` file to a public hosting service (e.g., GitHub Pages). Link your `.pmd` files to this viewer to allow users to decrypt and view them.
-
----
-
-## **File Structure**
-
-When using PMD, your repository will look like this:
-
-```plaintext
-project/
-├── .pmd/              # PMD configuration folder
-│   ├── key            # AES encryption key (generated during init)
-├── README.md          # Original Markdown file
-├── README.pmd         # Encrypted Markdown file
-├── viewer.html        # HTML viewer for `.pmd` files
-└── ...                # Other files in your project
-```
-
----
-
-## **Example Workflow**
-
-### **1. Initialize PMD**
-```bash
-pmd init
-```
-
-### **2. Encrypt a File**
+#### Using CLI:
 ```bash
 pmd encrypt README.md user1,user2 pass1,pass2
 ```
 
-### **3. Host Viewer**
-- Upload `viewer.html` to GitHub Pages or any public hosting service.
-- Share the `.pmd` file and viewer link with your users.
+### 5. View PMD Files
 
-### **4. View Encrypted File**
-Users can:
-1. Open `viewer.html`.
-2. Enter their username and password to decrypt and view the `.pmd` file.
+#### Using VS Code:
+1. Open a `.pmd` file
+2. Click the preview icon
+3. Enter your credentials
 
----
+#### Using Web Viewer:
+1. Open `viewer.html` in your browser
+2. Enter the path to your `.pmd` file
+3. Enter your credentials
 
-## **Development**
+## Features
 
-### **File Structure**
-The PMD project is organized as follows:
-```plaintext
-pmd-cli/
-├── package.json       # NPM configuration
-├── index.js           # Main CLI implementation
-├── .pmd/              # Configuration folder (created during init)
-│   ├── key            # AES encryption key
-├── viewer.html        # Decrypt and view `.pmd` files
-├── tests/             # Test scripts
-│   ├── test-encrypt.js
-│   ├── test-init.js
-├── examples/          # Sample `.md` and `.pmd` files
-│   ├── example.md
-│   ├── example.pmd
-└── README.md          # Project documentation
-```
+- 🔒 **Secure Encryption**: AES-256 encryption for your markdown files
+- 👥 **Multi-User Access**: Share encrypted files with specific users
+- 📝 **Editor Integration**: Seamless VS Code integration
+- 🌐 **Web Viewer**: View encrypted files in any browser
+- 🛠️ **CLI Tools**: Powerful command-line interface
+- 🔄 **Auto Setup**: Automatic project configuration
 
----
+## CLI Commands
 
-## **Commands**
-
-### **Initialize**
 ```bash
+# Initialize PMD
 pmd init
-```
-- Creates `.pmd/` folder and generates the encryption key.
-- Creates the `viewer.html` file for hosting.
 
-### **Encrypt**
-```bash
+# Encrypt a file
 pmd encrypt <file.md> <usernames> <passwords>
+
+# View encrypted file
+pmd view <file.pmd>
 ```
-- Converts `.md` file to `.pmd` with AES encryption.
 
----
+## VS Code Features
 
-## **Security Considerations**
-1. **Encryption Key**: The AES key is stored in `.pmd/key`. Ensure this file is **never shared publicly** (e.g., add `.pmd/` to `.gitignore`).
-2. **Public Hosting**: `.pmd` files are public by nature but are unreadable without decryption.
+- One-click encryption
+- Built-in preview
+- Context menu integration
+- Automatic setup
+- Customizable settings
 
----
+## Security
 
-## **Future Enhancements**
-- **VS Code Extension**:
-  - Preview `.pmd` files directly in VS Code.
-  - Encrypt and decrypt files from the editor.
-- **GitHub Integration**:
-  - Enable `.pmd` file previews directly on GitHub repositories.
-- **Advanced Authentication**:
-  - Add support for hashed passwords.
-  - Allow multi-factor authentication for `.pmd` files.
+- Files are encrypted using AES-256
+- Encryption keys are stored separately from content
+- Credentials are never stored in plain text
+- Web viewer uses client-side decryption
 
----
+## Configuration
 
-## **Contributing**
+### VS Code Settings
 
-### **Development Setup**
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/your-repo/pmd-cli.git
-   cd pmd-cli
-   ```
-
-2. Install dependencies:
-   ```bash
-   npm install
-   ```
-
-3. Link the package locally:
-   ```bash
-   npm link
-   ```
-
-### **Running Tests**
-Use the test scripts in the `tests/` folder to verify functionality:
-```bash
-node tests/test-init.js
-node tests/test-encrypt.js
+```json
+{
+  "pmd.autoPreview": true,
+  "pmd.defaultUsers": ["user1", "user2"]
+}
 ```
+
+### Project Structure
+
+```
+your-project/
+├── .pmd/              # PMD configuration (gitignored)
+│   └── key           # Encryption key
+├── docs/
+│   ├── secret.md     # Original markdown
+│   └── secret.pmd    # Encrypted version
+└── viewer.html       # Web viewer
+```
+
+## Contributing
+
+We welcome contributions! Please check our [Contributing Guidelines](CONTRIBUTING.md) for details.
+
+## License
+
+ISC License - see [LICENSE](LICENSE) for details.
+
+## Support
+
+- 📖 [Documentation](https://github.com/zoraizmohammad/pmd/wiki)
+- 🐛 [Issue Tracker](https://github.com/zoraizmohammad/pmd/issues)
+- 💬 [Discussions](https://github.com/zoraizmohammad/pmd/discussions)
