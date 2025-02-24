@@ -1,16 +1,30 @@
 const fs = require('fs-extra');
 const path = require('path');
 
-// Create necessary test directories
-const testDirs = [
-    path.join(__dirname, 'test-files'),
-    path.join(__dirname, 'test-cli'),
-    path.join(__dirname, 'test-viewer')
-];
+// Test directories
+const TEST_DIRS = {
+    fixtures: path.join(__dirname, 'fixtures'),
+    unit: path.join(__dirname, 'unit'),
+    integration: path.join(__dirname, 'integration'),
+    temp: path.join(__dirname, 'temp')
+};
 
-testDirs.forEach(dir => {
+// Create necessary test directories
+Object.values(TEST_DIRS).forEach(dir => {
     if (!fs.existsSync(dir)) {
         fs.ensureDirSync(dir);
-        fs.ensureDirSync(path.join(dir, '.pmd'));
     }
 });
+
+// Create .pmd directory in fixtures if it doesn't exist
+const pmdDir = path.join(TEST_DIRS.fixtures, '.pmd');
+if (!fs.existsSync(pmdDir)) {
+    fs.ensureDirSync(pmdDir);
+}
+
+// Export test constants
+global.TEST_DIRS = TEST_DIRS;
+global.TEST_FILES = {
+    markdown: path.join(TEST_DIRS.fixtures, 'testmarkdown.md'),
+    pmd: path.join(TEST_DIRS.fixtures, 'testmarkdown.pmd')
+};

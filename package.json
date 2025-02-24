@@ -1,14 +1,16 @@
 {
-  "name": "pmd-cli",
+  "name": "@zoraizmohammad/pmd",
   "version": "1.0.0",
-  "description": "PMD is a CLI tool for creating, encrypting, and managing private `.pmd` files with username/password authentication",
+  "description": "Private Markdown Encryption for Public Repositories - Securely encrypt and view markdown files",
   "main": "index.js",
   "bin": {
     "pmd": "./index.js"
   },
   "scripts": {
     "test": "jest",
-    "build": "webpack --mode production"
+    "build": "webpack --mode production",
+    "postinstall": "node scripts/postinstall.js",
+    "prepare": "npm run build"
   },
   "dependencies": {
     "chalk": "^4.1.2",
@@ -23,6 +25,7 @@
     "@types/jest": "^29.5.11",
     "@types/node": "^20.10.5",
     "jest": "^29.7.0",
+    "jest-environment-jsdom": "^29.7.0",
     "jsdom": "^24.0.0",
     "webpack": "^5.89.0",
     "webpack-cli": "^5.1.4"
@@ -32,8 +35,21 @@
     "encryption",
     "cli",
     "security",
-    "documentation"
+    "documentation",
+    "vscode",
+    "editor"
   ],
   "author": "Mohammad Zoraiz",
-  "license": "ISC"
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/zoraizmohammad/pmd.git"
+  },
+  "bugs": {
+    "url": "https://github.com/zoraizmohammad/pmd/issues"
+  },
+  "homepage": "https://github.com/zoraizmohammad/pmd#readme",
+  "publishConfig": {
+    "access": "public"
+  }
 }

@@ -3,9 +3,13 @@ module.exports = {
     moduleFileExtensions: ['js', 'json'],
     transform: {},
     testMatch: [
-        '**/tests/**/*.test.js'
+        '**/tests/unit/**/*.test.js',
+        '**/tests/integration/**/*.test.js'
     ],
     setupFiles: ['./tests/setup.js'],
     verbose: true,
-    testTimeout: 10000
+    testTimeout: 10000,
+    moduleNameMapper: {
+        '^@fixtures/(.*)$': '<rootDir>/tests/fixtures/$1'
+    }
 };
