@@ -1,19 +1,31 @@
 {
-  "name": "pmd",
+  "name": "pmd-cli",
   "version": "1.0.0",
-  "description": "PMD is a CLI tool for creating, encrypting, and managing private `.pmd` files. It allows users to securely encrypt Markdown content with a username and password system, making it accessible only to authorized users. The encrypted `.pmd` files can be viewed with an HTML viewer that decrypts the content in-browser after authentication.",
+  "description": "PMD is a CLI tool for creating, encrypting, and managing private `.pmd` files with username/password authentication",
   "main": "index.js",
   "bin": {
     "pmd": "./index.js"
   },
   "dependencies": {
     "crypto-js": "^4.2.0",
-    "fs-extra": "^11.2.0"
+    "fs-extra": "^11.2.0",
+    "commander": "^11.1.0",
+    "chalk": "^4.1.2",
+    "inquirer": "^8.2.6",
+    "marked": "^11.1.0"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest",
+    "build": "webpack --mode production"
   },
-  "keywords": [],
+  "keywords": ["markdown", "encryption", "cli", "security", "documentation"],
   "author": "Mohammad Zoraiz",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "webpack": "^5.89.0",
+    "webpack-cli": "^5.1.4",
+    "typescript": "^5.3.3",
+    "@types/node": "^20.10.5"
+  }
 }
